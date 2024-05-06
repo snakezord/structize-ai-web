@@ -1,11 +1,13 @@
+'use client';
+
 import { Box } from '@mui/material';
 
-import CustomNodeFlow from '@/components/shared/canvas';
+import Canvas from '@/components/canvas';
 
 export default function Homepage() {
   return (
-    <Box sx={{ width: '100vw', height: '100vh' }}>
-      <CustomNodeFlow />
+    <Box sx={{ width: '100vw', height: '100vh', position: 'relative' }}>
+      <Canvas />
     </Box>
   );
 }

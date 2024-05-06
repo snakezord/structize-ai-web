@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import { SITE_CONFIG } from '@/constants';
 import { SettingsProvider } from '@/providers/app-settings-provider';
-import NextAuthProvider from '@/providers/next-auth-provider';
 import ThemeProvider from '@/providers/theme-provider';
 
 export const metadata: Metadata = {
@@ -50,11 +49,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <NextAuthProvider>
-          <SettingsProvider>
-            <ThemeProvider>{children}</ThemeProvider>
-          </SettingsProvider>
-        </NextAuthProvider>
+        {/* <NextAuthProvider> */}
+        <SettingsProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </SettingsProvider>
+        {/* </NextAuthProvider> */}
       </body>
     </html>
   );

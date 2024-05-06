@@ -1,6 +1,3 @@
-'use client';
-// ----------------------------------------------------------------------
-
 export { default as AnimatedData } from './animated-data';
 export { default as FabButtonAnimate } from './fab-button-animate';
 export {

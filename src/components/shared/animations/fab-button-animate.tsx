@@ -66,7 +66,7 @@ const FabButtonAnimate = forwardRef<HTMLButtonElement, Props>(
   }
 );
 
-export default FabButtonAnimate.displayName;
+export default FabButtonAnimate;
 
 // ----------------------------------------------------------------------
 
