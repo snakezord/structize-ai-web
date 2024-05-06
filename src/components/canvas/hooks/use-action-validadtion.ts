@@ -2,15 +2,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-type SchemaT = {
+export type ActionT = {
   url: string;
   inputName: string;
   inputValue: string;
 };
 
-const DEFAULT: SchemaT = { url: '', inputName: '', inputValue: '' };
+const DEFAULT: ActionT = { url: '', inputName: '', inputValue: '' };
 
-export const useActionValidation = (defaultValues: SchemaT = DEFAULT) => {
+export const useActionValidation = (defaultValues: ActionT = DEFAULT) => {
   const urlSchema = z
     .string()
     .min(1, { message: 'URL is required' })

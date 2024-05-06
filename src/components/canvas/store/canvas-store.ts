@@ -13,6 +13,8 @@ import {
 } from 'reactflow';
 import { create } from 'zustand';
 
+import { isConnectedEdge } from '@/components/canvas/utils';
+
 export const selector = (state: RFState) => state;
 
 export type RFState = {
@@ -25,7 +27,7 @@ export type RFState = {
   setEdges: (edges: Edge[]) => void;
 };
 
-const useStore = create<RFState>((set, get) => ({
+const useCanvasStore = create<RFState>((set, get) => ({
   nodes: [],
   edges: [],
   onNodesChange: (changes: NodeChange[]) => {
@@ -45,10 +47,15 @@ const useStore = create<RFState>((set, get) => ({
   },
   setNodes: (nodes: Node[]) => {
     set({ nodes });
+
+    // Check for dependent edges
+    const nodeIds = nodes.map((n) => n.id);
+    const edges = get().edges;
+    set({ edges: edges.filter((e) => isConnectedEdge(e, nodeIds)) });
   },
   setEdges: (edges: Edge[]) => {
     set({ edges });
   },
 }));
 
-export default useStore;
+export default useCanvasStore;

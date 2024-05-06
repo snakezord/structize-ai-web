@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -7,8 +7,6 @@ import ReactFlow, {
   Node,
   NodeTypes,
   ReactFlowInstance,
-  useEdgesState,
-  useNodesState,
   XYPosition,
 } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
@@ -28,18 +26,14 @@ const nodeTypes: NodeTypes = {
   triggerNode: Trigger,
 };
 
-const defaultViewport = { x: 0, y: 0, zoom: 2 };
+const defaultViewport = { x: 0, y: 0, zoom: 0.8 };
 
-import useStore, { RFState, selector } from './store';
+import useStore, { RFState, selector } from './store/canvas-store';
 
 const Canvas = () => {
-  const [nodesLocal, setNodesLocal, onNodesChangeLocal] = useNodesState([]);
-  const [edgesLocal, setEdgesLocal, onEdgesChangeLocal] = useEdgesState([]);
-
   const reactFlowWrapper = useRef(null);
-  const { onConnect, nodes, edges, setNodes } = useStore<RFState>(
-    useShallow(selector)
-  );
+  const { onConnect, nodes, edges, setNodes, onEdgesChange, onNodesChange } =
+    useStore<RFState>(useShallow(selector));
 
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
@@ -48,14 +42,6 @@ const Canvas = () => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
-
-  useEffect(() => {
-    setNodesLocal(nodes);
-  }, [nodes, setNodesLocal]);
-
-  useEffect(() => {
-    setEdgesLocal(edges);
-  }, [edges, setEdgesLocal]);
 
   const onDrop = useCallback(
     (event: React.DragEvent) => {
@@ -91,15 +77,14 @@ const Canvas = () => {
         onDrop={onDrop}
         onDragOver={onDragOver}
         onInit={setReactFlowInstance}
-        nodes={nodesLocal}
-        edges={edgesLocal}
-        onNodesChange={onNodesChangeLocal}
-        onEdgesChange={onEdgesChangeLocal}
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         connectionLineStyle={connectionLineStyle}
         defaultViewport={defaultViewport}
-        fitView
         attributionPosition='bottom-left'
       >
         <MenuButton />

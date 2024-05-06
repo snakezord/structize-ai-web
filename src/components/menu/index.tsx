@@ -21,7 +21,12 @@ export const MenuButton = () => {
     <>
       <FabButtonAnimate
         size='small'
-        sxWrap={{ position: 'absolute', top: 20, left: 20, zIndex: zIndex.fab }}
+        sxWrap={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+          zIndex: zIndex.fab,
+        }}
         onClick={handleClick}
       >
         {open ? <IconMinus /> : <IconPlus />}

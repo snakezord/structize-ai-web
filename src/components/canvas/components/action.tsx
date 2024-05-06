@@ -1,4 +1,5 @@
 import { Stack, Typography } from '@mui/material';
+import { useCallback, useEffect } from 'react';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -6,13 +7,18 @@ import {
   CanvasComponentWrapper,
   PreviewWrapper,
 } from '@/components/canvas/components/wrapper';
-import { useActionValidation } from '@/components/canvas/hooks/use-action-validadtion';
-import useStore from '@/components/canvas/store';
+import {
+  ActionT,
+  useActionValidation,
+} from '@/components/canvas/hooks/use-action-validadtion';
+import useStore from '@/components/canvas/store/canvas-store';
 import { FormProvider } from '@/components/shared/inputs/RHF/form-provider';
 import RHFTextField from '@/components/shared/inputs/RHF/RHF-text-field';
 
 const Action = (props: NodeProps) => {
   const methods = useActionValidation();
+
+  const { watch } = methods;
 
   const [nodes, setNodes] = useStore(
     useShallow((state) => [state.nodes, state.setNodes])
@@ -21,6 +27,30 @@ const Action = (props: NodeProps) => {
   const handleDelete = () => {
     setNodes(nodes.filter((node) => node.id !== props.id));
   };
+
+  const updateNode = useCallback(
+    (values: ActionT) => {
+      const isValid = methods.formState.isValid;
+      if (!isValid) return;
+
+      const updatedNodes = nodes.map((node) => {
+        if (node.id === props.id) {
+          return { ...node, data: { ...node.data, ...values } };
+        }
+        return node;
+      });
+      setNodes(updatedNodes);
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [methods.formState.isValid, props.id, setNodes]
+  );
+
+  const { inputName, inputValue, url } = watch();
+
+  useEffect(() => {
+    updateNode({ inputName, inputValue, url });
+  }, [inputName, inputValue, updateNode, url]);
 
   return (
     <>

@@ -2,9 +2,9 @@ import { Divider, Paper, Stack, Typography } from '@mui/material';
 import { IconTrash } from '@tabler/icons-react';
 import { PropsWithChildren } from 'react';
 
+import { NodeType } from '@/components/canvas/types';
 import { IconButtonAnimate } from '@/components/shared/animations';
 import CustomAvatar from '@/components/shared/avatar';
-import { NodeType } from '@/components/canvas/types';
 
 type Props = {
   name: string;
