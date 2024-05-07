@@ -3,7 +3,7 @@ import zIndex from '@mui/material/styles/zIndex';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
 import { useState } from 'react';
 
-import { ActionPreview } from '@/components/canvas/components/action';
+import { ActionPreview } from '@/components/canvas/components/actions/get-request-action';
 import { TriggerPreview } from '@/components/canvas/components/trigger';
 import { FabButtonAnimate } from '@/components/shared/animations';
 import { CustomPopper } from '@/components/shared/popper';

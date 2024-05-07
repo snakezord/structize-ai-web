@@ -63,10 +63,10 @@ type Props = {
 };
 
 const NotistackProvider = ({ children }: Props) => {
-  const notistackRef = useRef<any>(null);
+  const notistackRef = useRef<SnackbarProvider | null>(null);
 
   const onClose = (key: SnackbarKey) => () => {
-    notistackRef.current.closeSnackbar(key);
+    notistackRef.current?.closeSnackbar(key);
   };
 
   return (
@@ -80,7 +80,7 @@ const NotistackProvider = ({ children }: Props) => {
         preventDuplicate
         autoHideDuration={3000}
         variant='success' // Set default variant
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         iconVariant={{
           info: <SnackbarIcon icon='info' color='info' />,
           success: <SnackbarIcon icon='success' color='success' />,
@@ -94,7 +94,7 @@ const NotistackProvider = ({ children }: Props) => {
             onClick={onClose(key)}
             sx={{ p: 0.5 }}
           >
-            <CloseRoundedIcon />
+            <CloseRoundedIcon color='inherit' />
           </IconButtonAnimate>
         )}
       >
@@ -125,8 +125,8 @@ const SnackbarIcon = ({ icon, color }: SnackbarIconProps) => {
         borderRadius: 1.5,
         alignItems: 'center',
         justifyContent: 'center',
-        color: `${color}.main`,
-        bgcolor: (theme) => alpha(theme.palette[color].main, 0.16),
+        color: `${color}.light`,
+        bgcolor: (theme) => alpha(theme.palette[color].main, 0.56),
       }}
     >
       {getCorrectIcon(icon)}

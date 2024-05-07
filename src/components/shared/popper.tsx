@@ -42,7 +42,11 @@ export const CustomPopper: React.FC<Props> = ({
             sx={{
               p: 2,
               mt: 1,
-              ...backGroundStyles(theme).bgBlur({ blur: 5, opacity: 0.85 }),
+              ...backGroundStyles(theme).bgBlur({
+                blur: 5,
+                opacity: 0.85,
+                color: theme.palette.background.default,
+              }),
             }}
           >
             {children}

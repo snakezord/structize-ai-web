@@ -12,6 +12,7 @@ import {
   OnNodesChange,
 } from 'reactflow';
 import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 
 import { isConnectedEdge } from '@/components/canvas/utils';
 
@@ -23,39 +24,45 @@ export type RFState = {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  setNodes: (nodes: Node[]) => void;
-  setEdges: (edges: Edge[]) => void;
+  setNodes: <T>(update: (prevNodes: Node<T>[]) => Node[]) => void;
+  setEdges: (update: (prevEdges: Edge[]) => Edge[]) => void;
 };
 
-const useCanvasStore = create<RFState>((set, get) => ({
-  nodes: [],
-  edges: [],
-  onNodesChange: (changes: NodeChange[]) => {
-    set({
-      nodes: applyNodeChanges(changes, get().nodes),
-    });
-  },
-  onEdgesChange: (changes: EdgeChange[]) => {
-    set({
-      edges: applyEdgeChanges(changes, get().edges),
-    });
-  },
-  onConnect: (connection: Connection) => {
-    set({
-      edges: addEdge(connection, get().edges),
-    });
-  },
-  setNodes: (nodes: Node[]) => {
-    set({ nodes });
+const useCanvasStore = create<RFState>()(
+  immer((set) => ({
+    nodes: [],
+    edges: [],
+    onNodesChange: (changes: NodeChange[]) => {
+      set((state) => {
+        state.nodes = applyNodeChanges(changes, state.nodes);
+      });
+    },
+    onEdgesChange: (changes: EdgeChange[]) => {
+      set((state) => {
+        state.edges = applyEdgeChanges(changes, state.edges);
+      });
+    },
+    onConnect: (connection: Connection) => {
+      set((state) => {
+        state.edges = addEdge(connection, state.edges);
+      });
+    },
+    setNodes: (update: (prevNodes: Node[]) => Node[]) => {
+      set((state) => {
+        const updatedNodes = update(state.nodes);
+        state.nodes = updatedNodes;
 
-    // Check for dependent edges
-    const nodeIds = nodes.map((n) => n.id);
-    const edges = get().edges;
-    set({ edges: edges.filter((e) => isConnectedEdge(e, nodeIds)) });
-  },
-  setEdges: (edges: Edge[]) => {
-    set({ edges });
-  },
-}));
+        // Check for dependent edges
+        const nodeIds = updatedNodes.map((n) => n.id);
+        state.edges = state.edges.filter((e) => isConnectedEdge(e, nodeIds));
+      });
+    },
+    setEdges: (update: (prevEdges: Edge[]) => Edge[]) => {
+      set((state) => {
+        state.edges = update(state.edges);
+      });
+    },
+  }))
+);
 
 export default useCanvasStore;

@@ -14,7 +14,7 @@ type Props = {
 export const CanvasComponentWrapper = ({ children, ...other }: Props) => {
   return (
     <Paper variant='outlined'>
-      <Stack p={2} pb={2.5} gap={2}>
+      <Stack p={2} pb={2.5} gap={2} maxWidth={400} maxHeight={600}>
         <Header {...other} />
         <Divider>INPUTS</Divider>
         {children}
@@ -65,7 +65,7 @@ export const PreviewWrapper = ({
     <Paper
       draggable
       onDragStart={(e) => onDragStart(e, type)}
-      sx={{ width: 1, backgroundColor: 'background.default', cursor: 'move' }}
+      sx={{ width: 1, cursor: 'move' }}
     >
       <Stack p={1} alignItems='center'>
         {children}

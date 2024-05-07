@@ -14,7 +14,7 @@ import { useShallow } from 'zustand/react/shallow';
 
 import 'reactflow/dist/style.css';
 
-import Action from '@/components/canvas/components/action';
+import Action from '@/components/canvas/components/actions/get-request-action';
 import Trigger from '@/components/canvas/components/trigger';
 import { RootStyle } from '@/components/canvas/styled-wrapper';
 import { MenuButton } from '@/components/menu';
@@ -65,10 +65,10 @@ const Canvas = () => {
           data: { label: `${type} node` },
         };
 
-        setNodes([...nodes, newNode]);
+        setNodes((prevNodes) => [...prevNodes, newNode]);
       }
     },
-    [nodes, reactFlowInstance, setNodes]
+    [reactFlowInstance, setNodes]
   );
 
   return (

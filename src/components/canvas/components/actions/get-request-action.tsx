@@ -7,49 +7,47 @@ import {
   CanvasComponentWrapper,
   PreviewWrapper,
 } from '@/components/canvas/components/wrapper';
-import {
-  ActionT,
-  useActionValidation,
-} from '@/components/canvas/hooks/use-action-validadtion';
+import { useActionValidation } from '@/components/canvas/hooks/use-get-request-action-validadtion';
 import useStore from '@/components/canvas/store/canvas-store';
 import { FormProvider } from '@/components/shared/inputs/RHF/form-provider';
 import RHFTextField from '@/components/shared/inputs/RHF/RHF-text-field';
 
-const Action = (props: NodeProps) => {
+import { GetRequestAction } from '@/types/action';
+
+const Action = (props: NodeProps<GetRequestAction>) => {
   const methods = useActionValidation();
 
   const { watch } = methods;
 
-  const [nodes, setNodes] = useStore(
-    useShallow((state) => [state.nodes, state.setNodes])
-  );
+  const [setNodes] = useStore(useShallow((state) => [state.setNodes]));
 
-  const handleDelete = () => {
-    setNodes(nodes.filter((node) => node.id !== props.id));
-  };
+  const handleDelete = useCallback(() => {
+    setNodes((prevNodes) => prevNodes.filter((node) => node.id !== props.id));
+  }, [props.id, setNodes]);
 
   const updateNode = useCallback(
-    (values: ActionT) => {
+    (values: GetRequestAction) => {
       const isValid = methods.formState.isValid;
-      if (!isValid) return;
 
-      const updatedNodes = nodes.map((node) => {
-        if (node.id === props.id) {
-          return { ...node, data: { ...node.data, ...values } };
-        }
-        return node;
-      });
-      setNodes(updatedNodes);
+      setNodes<GetRequestAction>((prevNodes) =>
+        prevNodes.map((node) => {
+          if (node.id === props.id) {
+            return {
+              ...node,
+              data: { ...node.data, ...values, isValid } as GetRequestAction,
+            };
+          }
+          return node;
+        })
+      );
     },
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [methods.formState.isValid, props.id, setNodes]
   );
 
   const { inputName, inputValue, url } = watch();
 
   useEffect(() => {
-    updateNode({ inputName, inputValue, url });
+    updateNode({ inputName, inputValue, url, type: 'GET_REQUEST' });
   }, [inputName, inputValue, updateNode, url]);
 
   return (

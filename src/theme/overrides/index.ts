@@ -1,16 +1,17 @@
 import { Theme } from '@mui/material/styles';
 import merge from 'lodash/merge';
+
+import Accordion from './Accordion';
+import Autocomplete from './Autocomplete';
 //
 import Button from './Button';
-import Accordion from './Accordion';
-import Paper from './Paper';
 import Chip from './Chip';
-import TextField from './TextField';
-import Select from './Select';
-import Autocomplete from './Autocomplete';
-import Tooltip from './Tooltip';
-import Input from './Input';
 import Fab from './Fab';
+import Input from './Input';
+import Paper from './Paper';
+import Select from './Select';
+import TextField from './TextField';
+import Tooltip from './Tooltip';
 import Typography from './Typography';
 
 // ----------------------------------------------------------------------

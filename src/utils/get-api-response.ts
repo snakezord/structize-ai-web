@@ -1,3 +1,5 @@
+import { enqueueSnackbar } from 'notistack';
+
 import { IS_PROD } from '@/constants';
 import { consoleLog } from '@/utils/console-log';
 
@@ -19,14 +21,21 @@ export const getApiResponse = async <T>({
     const response = await fetch(apiEndpoint, {
       method,
       body: requestData,
-      headers,
+      headers: { 'Content-Type': 'application/json', ...headers },
       next: {
         revalidate,
       },
     });
     if (!response.ok) {
       consoleLog('🚀 Debug getApiResponse requestData:', requestData);
-
+      enqueueSnackbar({
+        message: `Server error. ${
+          (await response.json()).message
+        }. Please try again.`,
+        variant: 'error',
+        autoHideDuration: 6000,
+        anchorOrigin: { horizontal: 'left', vertical: 'bottom' },
+      });
       throw new Error(
         `😢 getApiResponse failed: ${response.status}/${response.statusText} - ${apiEndpoint}`
       );
