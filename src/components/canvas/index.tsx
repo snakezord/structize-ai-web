@@ -28,6 +28,8 @@ const nodeTypes: NodeTypes = {
 
 const defaultViewport = { x: 0, y: 0, zoom: 0.8 };
 
+import { useInitialNodesAndEdges } from '@/hooks/use-initial-nodes-and-edges';
+
 import useStore, { RFState, selector } from '../../store/canvas-store';
 
 const Canvas = () => {
@@ -37,6 +39,8 @@ const Canvas = () => {
 
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
+
+  useInitialNodesAndEdges();
 
   const onDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault();

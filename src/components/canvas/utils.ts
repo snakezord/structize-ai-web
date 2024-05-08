@@ -17,11 +17,11 @@ export const getActiveTriggerActions = (
   const actionNodes = nodes.filter((n) =>
     actionNodesIds.includes(n.id)
   ) as ActionNodeNew[];
-  const actions = actionNodes.map(mapNode) as ActionNode[];
+  const actions = actionNodes.map(mapFromNode) as ActionNode[];
   return actions;
 };
 
-export const mapNode = (node: TriggerNodeNew | ActionNodeNew) => ({
+export const mapFromNode = (node: TriggerNodeNew | ActionNodeNew) => ({
   ...node,
   _id: node.id,
   data: {
@@ -29,8 +29,14 @@ export const mapNode = (node: TriggerNodeNew | ActionNodeNew) => ({
   } satisfies TriggerData | ActionData,
 });
 
-export const mapEdge = (edge: Edge): CustomEdge => ({
+export const mapFromEdge = (edge: Edge): CustomEdge => ({
   _id: edge.id,
+  source: edge.source,
+  target: edge.target,
+});
+
+export const mapToEdge = (edge: CustomEdge): Edge => ({
+  id: edge._id,
   source: edge.source,
   target: edge.target,
 });

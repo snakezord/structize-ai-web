@@ -17,7 +17,7 @@ import useStore from '@/store/canvas-store';
 import { GetRequestAction } from '@/types/action';
 
 const Action = (props: NodeProps<GetRequestAction>) => {
-  const methods = useActionValidation();
+  const methods = useActionValidation(props.data);
 
   const { watch } = methods;
 

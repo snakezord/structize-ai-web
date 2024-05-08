@@ -9,8 +9,8 @@ import {
 } from '@/components/canvas/components/wrapper';
 import {
   getActiveTriggerActions,
-  mapEdge,
-  mapNode,
+  mapFromEdge,
+  mapFromNode,
 } from '@/components/canvas/utils';
 import CustomButton from '@/components/shared/button';
 
@@ -61,8 +61,8 @@ export const Trigger = (props: NodeProps) => {
       apiEndpoint: `${process.env.NEXT_PUBLIC_BASE_URL}/trigger`,
       method: 'POST',
       requestData: JSON.stringify({
-        nodes: nodes.map(mapNode) as (ActionNode | TriggerNode)[],
-        edges: edges.map(mapEdge),
+        nodes: nodes.map(mapFromNode) as (ActionNode | TriggerNode)[],
+        edges: edges.map(mapFromEdge),
         actions: getActiveTriggerActions(id, edges, nodes),
       }),
     });
