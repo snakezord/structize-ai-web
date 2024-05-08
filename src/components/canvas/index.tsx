@@ -17,7 +17,7 @@ import 'reactflow/dist/style.css';
 import Action from '@/components/canvas/components/actions/get-request-action';
 import Trigger from '@/components/canvas/components/triggers/default-trigger';
 import { RootStyle } from '@/components/canvas/styled-wrapper';
-import { MenuButton } from '@/components/menu';
+import { MenuButton } from '@/components/menu/draggable-components';
 
 const connectionLineStyle = { stroke: '#fff' };
 
@@ -29,6 +29,8 @@ const nodeTypes: NodeTypes = {
 const defaultViewport = { x: 0, y: 0, zoom: 0.8 };
 
 import { useInitialNodesAndEdges } from '@/hooks/use-initial-nodes-and-edges';
+
+import { UserSessionMenu } from '@/components/menu/user-session';
 
 import useStore, { RFState, selector } from '../../store/canvas-store';
 
@@ -92,6 +94,7 @@ const Canvas = () => {
         attributionPosition='bottom-left'
       >
         <MenuButton />
+        <UserSessionMenu />
         <Controls />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>

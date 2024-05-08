@@ -1,6 +1,9 @@
 import { Entity } from '@/types/entity';
 
-export type User = {
+export type NewUser = {
   name: string;
   email: string;
-} & Entity;
+  picture?: string;
+};
+
+export type User = NewUser & Entity;
