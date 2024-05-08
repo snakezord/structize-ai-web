@@ -15,7 +15,7 @@ import { useShallow } from 'zustand/react/shallow';
 import 'reactflow/dist/style.css';
 
 import Action from '@/components/canvas/components/actions/get-request-action';
-import Trigger from '@/components/canvas/components/trigger';
+import Trigger from '@/components/canvas/components/triggers/default-trigger';
 import { RootStyle } from '@/components/canvas/styled-wrapper';
 import { MenuButton } from '@/components/menu';
 
@@ -28,7 +28,7 @@ const nodeTypes: NodeTypes = {
 
 const defaultViewport = { x: 0, y: 0, zoom: 0.8 };
 
-import useStore, { RFState, selector } from './store/canvas-store';
+import useStore, { RFState, selector } from '../../store/canvas-store';
 
 const Canvas = () => {
   const reactFlowWrapper = useRef(null);
@@ -62,7 +62,7 @@ const Canvas = () => {
           id: uuidv4(),
           type,
           position,
-          data: { label: `${type} node` },
+          data: null,
         };
 
         setNodes((prevNodes) => [...prevNodes, newNode]);

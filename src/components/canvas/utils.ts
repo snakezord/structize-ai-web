@@ -1,21 +1,13 @@
-import omit from 'lodash/omit';
 import { Edge, Node } from 'reactflow';
 
-import { Action, ActionNew, ActionType } from '@/types/action';
+import { ActionData, ActionNode, ActionNodeNew } from '@/types/action';
+import { Edge as CustomEdge } from '@/types/edge';
+import { TriggerData, TriggerNodeNew } from '@/types/trigger';
 
 export const isConnectedEdge = (edge: Edge, nodeIds: string[]) =>
   nodeIds.includes(edge.source) && nodeIds.includes(edge.target);
 
-const mapNodeToAction = (actionNodes: Node<ActionNew>[]): Action[] =>
-  actionNodes.map((a) => ({
-    nodeId: a.id,
-    _id: a.id,
-    updatedAt: new Date().toISOString(),
-    createdAt: new Date().toISOString(),
-    ...(omit(a.data, 'label') as ActionNew),
-  }));
-
-export const getTriggerActions = (
+export const getActiveTriggerActions = (
   triggerNodeId: string,
   edges: Edge[],
   nodes: Node[]
@@ -24,7 +16,21 @@ export const getTriggerActions = (
   const actionNodesIds = connectedEdges.map((e) => e.target);
   const actionNodes = nodes.filter((n) =>
     actionNodesIds.includes(n.id)
-  ) as Node<ActionNew & { label: string; type: ActionType }>[];
-  const actions = mapNodeToAction(actionNodes);
+  ) as ActionNodeNew[];
+  const actions = actionNodes.map(mapNode) as ActionNode[];
   return actions;
 };
+
+export const mapNode = (node: TriggerNodeNew | ActionNodeNew) => ({
+  ...node,
+  _id: node.id,
+  data: {
+    ...node.data,
+  } satisfies TriggerData | ActionData,
+});
+
+export const mapEdge = (edge: Edge): CustomEdge => ({
+  _id: edge.id,
+  source: edge.source,
+  target: edge.target,
+});

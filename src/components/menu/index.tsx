@@ -4,7 +4,7 @@ import { IconMinus, IconPlus } from '@tabler/icons-react';
 import { useState } from 'react';
 
 import { ActionPreview } from '@/components/canvas/components/actions/get-request-action';
-import { TriggerPreview } from '@/components/canvas/components/trigger';
+import { TriggerPreview } from '@/components/canvas/components/triggers/default-trigger';
 import { FabButtonAnimate } from '@/components/shared/animations';
 import { CustomPopper } from '@/components/shared/popper';
 

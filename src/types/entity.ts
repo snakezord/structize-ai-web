@@ -1,6 +1,9 @@
 export type Entity = {
   _id: string;
-  nodeId: string;
+};
+
+export type EntityDetailed = {
+  _id: string;
   createdAt: string;
   updatedAt: string;
 };

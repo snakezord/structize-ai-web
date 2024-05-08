@@ -3,14 +3,16 @@ import { useCallback, useEffect } from 'react';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { useShallow } from 'zustand/react/shallow';
 
+import { useActionValidation } from '@/hooks/validations/use-get-request-action-validadtion';
+
 import {
   CanvasComponentWrapper,
   PreviewWrapper,
 } from '@/components/canvas/components/wrapper';
-import { useActionValidation } from '@/components/canvas/hooks/use-get-request-action-validadtion';
-import useStore from '@/components/canvas/store/canvas-store';
 import { FormProvider } from '@/components/shared/inputs/RHF/form-provider';
 import RHFTextField from '@/components/shared/inputs/RHF/RHF-text-field';
+
+import useStore from '@/store/canvas-store';
 
 import { GetRequestAction } from '@/types/action';
 
